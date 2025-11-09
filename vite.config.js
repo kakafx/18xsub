@@ -83,7 +83,6 @@ export default defineConfig({
           {
             name: '访客模式',
             short_name: '访客',
-           ',
             description: '直接进入访客模式获取订阅',
             url: '/?visitor=true',
             icons: [{ src: '/icons/visitor-icon.png', sizes: '96x96' }],
