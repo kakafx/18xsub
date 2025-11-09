@@ -2,6 +2,10 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { VitePWA } from 'vite-plugin-pwa';
 
+/* ① ESM 方式引入 Tailwind 与 Autoprefixer */
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
+
 export default defineConfig({
   plugins: [
     vue(),
@@ -45,46 +49,14 @@ export default defineConfig({
         scope: '/',
         start_url: '/',
         icons: [
-          {
-            src: '/icons/icon-72x72.png',
-            sizes: '72x72',
-            type: 'image/png',
-          },
-          {
-            src: '/icons/icon-96x96.png',
-            sizes: '96x96',
-            type: 'image/png',
-          },
-          {
-            src: '/icons/icon-128x128.png',
-            sizes: '128x128',
-            type: 'image/png',
-          },
-          {
-            src: '/icons/icon-144x144.png',
-            sizes: '144x144',
-            type: 'image/png',
-          },
-          {
-            src: '/icons/icon-152x152.png',
-            sizes: '152x152',
-            type: 'image/png',
-          },
-          {
-            src: '/icons/icon-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: '/icons/icon-384x384.png',
-            sizes: '384x384',
-            type: 'image/png',
-          },
-          {
-            src: '/icons/icon-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
+          { src: '/icons/icon-72x72.png', sizes: '72x72', type: 'image/png' },
+          { src: '/icons/icon-96x96.png', sizes: '96x96', type: 'image/png' },
+          { src: '/icons/icon-128x128.png', sizes: '128x128', type: 'image/png' },
+          { src: '/icons/icon-144x144.png', sizes: '144x144', type: 'image/png' },
+          { src: '/icons/icon-152x152.png', sizes: '152x152', type: 'image/png' },
+          { src: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/icons/icon-384x384.png', sizes: '384x384', type: 'image/png' },
+          { src: '/icons/icon-512x512.png', sizes: '512x512', type: 'image/png' },
         ],
         categories: ['productivity', 'utilities'],
         lang: 'zh-CN',
@@ -97,15 +69,15 @@ export default defineConfig({
             sizes: '1280x720',
             type: 'image/png',
             form_factor: 'wide',
-            label: 'Dashboard view'
+            label: 'Dashboard view',
           },
           {
             src: '/screenshots/mobile-1.png',
             sizes: '390x844',
             type: 'image/png',
             form_factor: 'narrow',
-            label: 'Mobile dashboard'
-          }
+            label: 'Mobile dashboard',
+          },
         ],
         shortcuts: [
           {
@@ -113,41 +85,33 @@ export default defineConfig({
             short_name: '访客',
             description: '直接进入访客模式获取订阅',
             url: '/?visitor=true',
-            icons: [
-              {
-                src: '/icons/visitor-icon.png',
-                sizes: '96x96'
-              }
-            ]
+            icons: [{ src: '/icons/visitor-icon.png', sizes: '96x96' }],
           },
           {
             name: '节点统计',
             short_name: '统计',
             description: '查看节点地区分布统计',
             url: '/?stats=true',
-            icons: [
-              {
-                src: '/icons/stats-icon.png',
-                sizes: '96x96'
-              }
-            ]
-          }
-        ]
+            icons: [{ src: '/icons/stats-icon.png', sizes: '96x96' }],
+          },
+        ],
       },
       devOptions: {
         enabled: true,
         type: 'module',
-      }
-    })
+      },
+    }),
   ],
+
   server: {
     port: 3000,
     host: '0.0.0.0',
     headers: {
       'Cross-Origin-Embedder-Policy': 'credentialless',
       'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
-    }
+    },
   },
+
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -156,25 +120,26 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['vue', 'pinia'],
-          utils: ['clsx', 'js-yaml']
-        }
-      }
-    }
+          utils: ['clsx', 'js-yaml'],
+        },
+      },
+    },
   },
+
   resolve: {
     alias: {
-      '@': '/src'
-    }
+      '@': '/src',
+    },
   },
+
+  /* ② 使用 ESM 插件调用 */
   css: {
     postcss: {
-      plugins: [
-        require('tailwindcss'),
-        require('autoprefixer')
-      ]
-    }
+      plugins: [tailwindcss(), autoprefixer()],
+    },
   },
+
   optimizeDeps: {
-    include: ['vue', 'pinia', 'js-yaml', 'clsx']
-  }
+    include: ['vue', 'pinia', 'js-yaml', 'clsx'],
+  },
 });
