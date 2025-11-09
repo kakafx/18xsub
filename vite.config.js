@@ -2,8 +2,8 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { VitePWA } from 'vite-plugin-pwa';
 
-/* ① ESM 方式引入 Tailwind 与 Autoprefixer */
-import tailwindcss from 'tailwindcss';
+/* ① 使用 Tailwind CSS v4 的独立 PostCSS 插件 */
+import tailwindcss from '@tailwindcss/postcss';
 import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
@@ -83,6 +83,7 @@ export default defineConfig({
           {
             name: '访客模式',
             short_name: '访客',
+           ',
             description: '直接进入访客模式获取订阅',
             url: '/?visitor=true',
             icons: [{ src: '/icons/visitor-icon.png', sizes: '96x96' }],
@@ -132,7 +133,7 @@ export default defineConfig({
     },
   },
 
-  /* ② 使用 ESM 插件调用 */
+  /* ② 正确调用 Tailwind CSS v4 的 PostCSS 插件 */
   css: {
     postcss: {
       plugins: [tailwindcss(), autoprefixer()],
